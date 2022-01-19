@@ -1,0 +1,40 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Личный кабинет{% endblock %}
+
+
+{% block body %}
+
+    <div class="head">
+        <h3>Добро пожаловать {{ app.user.name }}! Это ваша личная страница на Food-Blog!</h3>
+    </div>
+
+    <div class="head">
+        <input type="button" value="Добавить рецепт">
+        <p>Добавление рецептов еще находится в разработке!</p>
+    </div>
+
+
+    <div class="comments">
+        <h3>Мои опубликованные рецепты</h3>
+
+        {% for blog in blogs %}
+        <article class="blog">
+            <div class="date"><time datetime="{{ blog.created|date('c') }}">{{ blog.created|date('l, F j, Y') }}</time></div>
+            <header>
+                <h2><a href="/blog/{{ blog.id }}/{{ blog.slug }}">{{ blog.title }}</a></h2>
+            </header>
+
+            <img src="{{ asset(['images/', blog.image]|join) }}" />
+            <div class="snippet">
+                <p>{{ blog.blog(500) }}</p>
+                <p class="continue"><a href="/blog/{{ blog.id }}/{{ blog.slug }}">Читать полностью...</a></p>
+            </div>
+        </article>
+        {% else %}
+            <p>Упс, нет ни одного блога...</p>
+        {% endfor %}
+    </div>
+
+
+{% endblock %}

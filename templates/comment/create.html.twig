@@ -1,0 +1,11 @@
+{% extends 'layout.html.twig' %}
+
+{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+    {% block title %}Добавить комментарий{% endblock%}
+
+    {% block body %}
+        <h1>Добавить комментарий для поста "{{ comment.blog.title }}"</h1>
+        {% include 'Comment/form.html.twig' with { 'form': form } %}
+{% endif %}
+
+{% endblock %}

@@ -1,19 +1,69 @@
+
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {# Run `composer require symfony/webpack-encore-bundle`
-           and uncomment the following Encore helpers to start using Symfony UX #}
-        {% block stylesheets %}
-            {#{{ encore_entry_link_tags('app') }}#}
-        {% endblock %}
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset=utf-8" />
+    <title>{% block title %}Food-Blog{% endblock %} - Taste Food</title>
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    {% block stylesheets %}
+        <link href='http://fonts.googleapis.com/css?family=Irish+Grover' rel='stylesheet' type='text/css'>
+        <link href='<link href="https://fonts.googleapis.com/css2?family=Caveat&display=swap' rel='stylesheet' type='text/css'>
+        <link href="{{ asset('css/screen.css') }}" type="text/css" rel="stylesheet" />
+    {% endblock %}
+    <link rel="icon" type="image/x-icon" href="{{ asset('images/favicon.ico') }}" />
+</head>
+<body>
 
-        {% block javascripts %}
-            {#{{ encore_entry_script_tags('app') }}#}
-        {% endblock %}
-    </head>
-    <body>
+<section id="wrapper">
+    <header id="header">
+        <div class="top">
+            {% block navigation %}
+
+                <nav>
+                    <ul class="navigation">
+                        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                        <li><h3>Вы авторизованы, как: {{ app.user.login }}</h3></li>
+                        {% endif %}
+                        <li><a href="{{ path('page') }}">Главная</a></li>
+                        <li><a href="{{ path('about') }}">О блоге</a></li>
+                        <li><a href="{{ path('contacts') }}">Контакты</a></li>
+                        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                            <li><a href="/logout">Выход</a></li>
+                        {% else %}
+                            <li><a href="{{ path('login_form') }}">Вход</a></li>
+                        {% endif %}
+                        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                            <li><a href="account">Моя страница</a></li>
+                        {% else %}
+                        <li><a href="{{ path('registration_form') }}">Регистрация</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            {% endblock %}
+        </div>
+
+        <hgroup>
+            <h2>{% block blog_title %}<a href="#">Food-Blog</a>{% endblock %}</h2>
+            <h3>{% block blog_tagline %}<a href="#">самый вкусный блог</a>{% endblock %}</h3>
+        </hgroup>
+    </header>
+
+    <section class="main-col">
         {% block body %}{% endblock %}
-    </body>
+    </section>
+    <aside class="sidebar">
+        {% block sidebar %}{% endblock %}
+    </aside>
+
+    <div id="footer">
+        {% block footer %}
+            Food-Blog - создан Evgenii Zharikov 2021&copy;
+        {% endblock %}
+    </div>
+</section>
+
+{% block javascripts %}{% endblock %}
+</body>
 </html>
